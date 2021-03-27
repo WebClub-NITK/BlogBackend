@@ -38,7 +38,7 @@ def getUser(token):
                 user=User.objects.get(email=idinfo['email'])
                 return user
             except:
-                return -2        #not member of club
+                return -2       #not member of club
         else:
             return -1
     except ValueError:
@@ -105,7 +105,7 @@ def postBlog(request):
     elif user==-2:
         return HttpResponse("You Are Not Authorized To Write Blogs",status=403 )
     else:
-        if temp['blogId']==-1:
+        if request.method=="POST":                                                  #post request for new blog
             obj = blogs()
             obj.heading = temp['heading']
             obj.user_email = user.email
@@ -129,7 +129,7 @@ def postBlog(request):
                 except IntegrityError:
                     print("already there")
             return JsonResponse({'msg':"Blog Published Successfully",'id':obj.id},status=200)
-        else:
+        elif request.method=="PUT":                                                                                             #put request for update
             try:
                 obj=blogs.objects.get(id=temp['blogId'])
                 if obj.user_email!=user.email:
@@ -156,22 +156,24 @@ def postBlog(request):
                 except IntegrityError:
                     print("already there")
             return JsonResponse({'msg':"Blog Updated Successfully",'id':obj.id},status=200)
+        else:
+            return JsonResponse({'msg':"Url Not Found"},status=404)
             
 
 def deleteblog(request):
-    temp=json.loads(request.body)
-    user=getUser(temp['token'])
-    if user==-1 :
-        return HttpResponse("Invalid Login Credentials Please login",status=401)
-    elif user==-2:
-        return HttpResponse("You Are Not Authorized To Write Blogs",status=403 )
-    else:
-        try:
-            blog=blogs.objects.get(id=temp['blogid'])
-        except blogs.DoesNotExist:
-            return HttpResponse('Blog Does not exist',status=404)
-        if user.email==temp['user_email']:
-            if blog.user_email==user.email:
+    if request.method=="DELETE":      
+        temp=json.loads(request.body)
+        user=getUser(temp['token'])
+        if user==-1 :
+            return HttpResponse("Invalid Login Credentials Please login",status=401)
+        elif user==-2:
+            return HttpResponse("You Are Not Authorized To Write Blogs",status=403 )
+        else:
+            try:
+                blog=blogs.objects.get(id=temp['id'])
+            except blogs.DoesNotExist:
+                return HttpResponse('Blog Does not exist',status=404)
+            if user.email==blog.user_email:
                 blogtag=taginblog.objects.filter(blog=blog)
                 for k in blogtag:
                     k.delete()
@@ -179,5 +181,4 @@ def deleteblog(request):
                 return HttpResponse("Blog deleted successfully",status=200)
             else:
                 return HttpResponse("You are not authorized to delete this blogs",status=403 )
-        else:
-            return HttpResponse("Enter a valid email",status=401 )
+            
