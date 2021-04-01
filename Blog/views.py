@@ -17,7 +17,7 @@ import random,string
 import json
 import datetime
 import ast
-
+from bs4 import BeautifulSoup
 # def create_club_member_data(request): #can be used to set users from spreadsheet to db
 #     a=json.loads(request.body)
 #     print(a)
@@ -105,6 +105,12 @@ def postBlog(request):
     elif user==-2:
         return HttpResponse("You Are Not Authorized To Write Blogs",status=403 )
     else:
+        content=temp['content']
+        soup=BeautifulSoup(content,'html.parser')
+        all_img=soup.find_all('img')
+        print(all_img)
+        print(len(all_img))
+        # print(content)
         if request.method=="POST":                                                  #post request for new blog
             obj = blogs()
             obj.heading = temp['heading']
