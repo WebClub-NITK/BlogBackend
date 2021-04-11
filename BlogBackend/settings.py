@@ -84,7 +84,7 @@ if IN_PRODUCTION:
             "ENGINE": "django.db.backends.mysql",
             "NAME": 'blogApp',
             "USER": 'root',
-            "PASSWORD": '2409',
+            "PASSWORD": config('MYSQL_PASSWORD'),
             'HOST': 'localhost'
         }
     }
