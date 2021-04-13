@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1','wecbackend.nitk.ac.in','10.11.0.66']
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Application definition
@@ -76,26 +76,25 @@ WSGI_APPLICATION = 'BlogBackend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-IN_PRODUCTION = True
+# IN_PRODUCTION = False
 
-if IN_PRODUCTION:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": 'blogApp',
-            "USER": 'root',
-            "PASSWORD": config('MYSQL_PASSWORD'),
-            'HOST': 'localhost'
-        }
+# if IN_PRODUCTION:
+#    DATABASES = {
+#        "default": {
+#            "ENGINE": "django.db.backends.mysql",
+#            "NAME": 'blogApp',
+#            "USER": 'root',
+#            "PASSWORD": config('MYSQL_PASSWORD'),
+#            'HOST': 'localhost'
+#        }
+#    }
+# else:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

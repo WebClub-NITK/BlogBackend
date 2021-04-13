@@ -1,0 +1,6 @@
+.env
+Blog/__pycache__/*
+Blog/migrations/__pycache__/*
+BlogBackend/*.pyc
+BlogBackend/__pycache__/*
+
