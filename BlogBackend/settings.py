@@ -131,6 +131,7 @@ USE_TZ = True
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'https://webclub.nitk.ac.in',
+    'www.webclub.nitk.ac.in',
     'http://localhost:3000'
 ]
 # Static files (CSS, JavaScript, Images)
