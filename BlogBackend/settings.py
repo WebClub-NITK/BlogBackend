@@ -130,7 +130,8 @@ USE_TZ = True
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
-    'https://webclub.nitk.ac.in'
+    'https://webclub.nitk.ac.in',
+    'http://localhost:3000'
 ]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
